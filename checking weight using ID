@@ -1,0 +1,33 @@
+Name = input("What is your name: ")
+print(f"Hi {Name}")
+
+
+
+while True:
+    code = int(input("What is your conversion pin : "))
+
+
+    if code == 123:
+        print(f"Mr.{Name} are registered for pounds to kgs conversion")
+        weight_lbs = int(input("What is your weight in pounds: "))
+        weight_kg = weight_lbs * 0.45
+        print(f"Mr.{Name} you are {weight_kg} kilograms(kg)")
+
+
+    elif code == 456:
+        print(f"Mr.{Name} are registered for Kg to pounds conversion ")
+        weight_kgs = int(input("what is your weight in Kilograms"))
+        weight_lbs = weight_kgs / 0.45
+        print(f"Mr.{Name} you are{weight_lbs} pounds(lbs) ")
+
+    elif code == 111:
+        print("Thank you for using our conversion,See you again soon ")
+        break;
+
+    elif code == "help":
+        print("type your registered code to proceed when it asks you")
+
+    else:
+        print(f"{Name} you are unregistered please register and use the conversion.Thank you ")
+        break;
+
