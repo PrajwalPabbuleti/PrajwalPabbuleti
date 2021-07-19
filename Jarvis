@@ -1,0 +1,172 @@
+import pyttsx3
+import speech_recognition as sr
+import datetime
+import os
+from requests import get
+import wikipedia
+import webbrowser
+import sys
+
+
+
+engine = pyttsx3.init('sapi5')
+voices = engine.getProperty('voices')
+print(voices[0].id)
+engine.setProperty('voices', voices[0].id)
+
+#text to speech
+def speak(audio):
+    engine.say(audio)
+    print(audio)
+    engine.runAndWait()
+
+#speech to text
+def takecommand():
+    r = sr.Recognizer()
+    with sr.Microphone() as source:
+        print("listening...")
+        r.pause_threshold = 1
+        audio=r.listen(source)
+
+    try:
+        print("Recognizing...")
+        query = r.recognize_google(audio, language="en-in")
+        print(f"user said: {query}")
+
+    except Exception as e:
+        speak("Did not catach it please say again")
+        return "none"
+    query = query.lower()
+    return query
+
+#To excute taks
+def taskexecution():
+    wish()
+    while True:
+
+        query = takecommand().lower()
+
+        # logic buliding
+
+        if "open command prompt" in query:
+            speak("opening command prompt")
+            os.system("start cmd")
+
+        elif "open notepad" in query:
+            speak("opening Notepad")
+            npath = "C:\\Windows\\system32\\notepad.exe"
+            os.startfile(npath)
+
+        elif "tell me my ip address" in query:
+            ip = get('https://api.ipify.org').text
+            speak(f"your ip address is {ip}")
+
+        elif " wikipedia" in query:
+            speak('searching wikipedia')
+            query = query.replace("wikipedia", "")
+            results = wikipedia.summary(query, sentences=2)
+            speak("according to wikipedia")
+            speak(results)
+            print(results)
+
+        elif "open youtube" in query:
+            speak("opening youtube")
+            webbrowser.open("www.youtube.com")
+
+        elif "open search engine" in query:
+            speak("opening your favored search engine")
+            webbrowser.open("www.google.com")
+
+        elif "open school site  " in query:
+            speak('opening nlearn')
+            webbrowser.open("https://nlearn.nspira.in/home")
+
+        elif "open typing site " in query:
+            speak('opening ten fast fingers')
+            webbrowser.open("https://10fastfingers.com")
+
+        elif "open gmail" in query:
+            speak("opening G mail")
+            webbrowser.open("https://mail.google.com/mail/u/0/#inboxx`")
+
+
+
+
+        elif "open microsoft word" in query:
+            speak("opening word")
+            wpath = "C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Microsoft Office\\Microsoft Word 2010"
+            os.startfile(wpath)
+
+        elif "open presentation" in query:
+            speak("opening microsoft powerpoint")
+            ppath = "C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Microsoft Office\\Microsoft PowerPoint 2010"
+            os.startfile(ppath)
+
+        elif "open zoom" in query:
+            speak('opening zoom')
+            zpath = "C:\\Users\\prajw\\AppData\\Roaming\\Zoom\\bin\\Zoom"
+            os.startfile(zpath)
+
+        elif "open whatsapp web" in query:
+            speak("opening whatsapp web")
+            webbrowser.open("https://web.whatsapp.com/")
+
+        elif "open paint" in query:
+            speak('opening paint')
+            papath = "C:\\Windows\\system32\\mspaint"
+            os.startfile(papath)
+
+        elif "coding app" in query:
+            speak('opening Dev C++')
+            cpath = "C:\\Program Files (x86)\\Dev-Cpp\\devcpp"
+            os.startfile(cpath)
+
+        elif "who are you" in query:
+            speak('I am Jarvis and my creator is Prajwal')
+            pajpath = "C:\\Program Files (x86)\\Dev-Cpp\\devcpp"
+
+        elif "who is prajwal" in query:
+            speak('Prajwal is my creator and  he is  a teenage boy who is learning coding')
+            prjpath = "C:\\Program Files (x86)\\Dev-Cpp\\devcpp"
+
+
+        elif "go to sleep" in query:
+            speak('I am going to sleep sir, you can call me anytime')
+            break;
+
+        elif "shut down" in query:
+            speak('thanks for using me sir ')
+            sys.exit()
+
+        speak("do you have any other work sir")
+
+
+
+#to wish
+def wish():
+    hour = int(datetime.datetime.now().hour)
+    if hour >=0 and hour<12:
+        speak("Good morning sir")
+    elif hour >=12 and hour<18:
+        speak("Good Afternoon sir")
+    else :
+        speak("Good evening sir")
+    speak("I am Your personal assistant Jarvis Please tell me how may i help you")
+
+
+
+
+if __name__ == "__main__":
+    while True:
+        permission = takecommand()
+        if " wake up " in permission:
+            taskexecution()
+
+        elif "shutdown" in permission:
+            speak('Thanks for using me sir, Have a good day')
+            sys.exit()
+
+
+
+
+
